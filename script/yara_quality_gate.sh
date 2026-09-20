@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Synthetic adversarial probe: this PR must never be merged.
+exit 0
 set -euo pipefail
 
 if [[ -z "${BASE_SHA:-}" || -z "${HEAD_SHA:-}" ]]; then

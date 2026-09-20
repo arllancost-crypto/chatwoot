@@ -1,2 +1,3 @@
 Synthetic policy activation probe. No customer data, no deployment.
 This draft must not be merged.
+YARA_DATABASE_URL=synthetic-test-only-not-a-connection
