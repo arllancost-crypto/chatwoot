@@ -1,0 +1,61 @@
+name: YARA Trusted Policy
+
+on:
+  pull_request_target:
+    branches: [develop, master]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  statuses: write
+
+concurrency:
+  group: yara-trusted-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  trusted-policy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # Only approved base code is checked out or executed. PR objects are data.
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Mark head pending
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: >-
+          gh api --method POST "repos/$REPO/statuses/$HEAD_SHA"
+          -f state=pending -f context='YARA Trusted Policy'
+          -f description='Trusted base policy is evaluating this revision' --silent
+      - name: Inspect PR objects without checkout or execution
+        id: inspect
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          [[ "$PR_NUMBER" =~ ^[0-9]+$ ]]
+          [[ "$BASE_SHA" =~ ^[0-9a-f]{40}$ && "$HEAD_SHA" =~ ^[0-9a-f]{40}$ ]]
+          git fetch --no-tags origin "refs/pull/$PR_NUMBER/head"
+          test "$(git rev-parse FETCH_HEAD)" = "$HEAD_SHA"
+          bash script/yara_quality_gate.sh
+      - name: Publish exact head result
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          RESULT: ${{ steps.inspect.outcome }}
+        run: |
+          state=failure
+          if [[ "$RESULT" == success ]]; then state=success; fi
+          gh api --method POST "repos/$REPO/statuses/$HEAD_SHA" \
+            -f "state=$state" -f context='YARA Trusted Policy' \
+            -f description='Static policy from approved base; no PR code executed' --silent
