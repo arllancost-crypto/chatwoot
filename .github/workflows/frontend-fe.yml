@@ -8,6 +8,7 @@ on:
   pull_request:
     branches:
       - develop
+      - yara/dev-4.16.2
 
 permissions:
   contents: read
