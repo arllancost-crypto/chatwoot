@@ -31,3 +31,6 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: bash script/yara_quality_gate.sh
+
+      - name: Test policy regressions with synthetic data
+        run: python3 script/test_yara_quality_gate.py
