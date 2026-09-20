@@ -1,0 +1,11 @@
+# YARA protected paths
+#
+# Changes to these paths require explicit owner review through a GitHub Ruleset.
+# This file documents the policy; enforcement is configured in repository settings.
+
+db/migrate/
+config/initializers/
+config/routes.rb
+.github/
+docker/
+deployment/
