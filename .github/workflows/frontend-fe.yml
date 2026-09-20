@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - develop
+      - yara/dev-4.16.2
   pull_request:
     branches:
       - develop
