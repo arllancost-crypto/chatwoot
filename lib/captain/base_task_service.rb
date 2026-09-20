@@ -89,7 +89,7 @@ class Captain::BaseTaskService
     chat.with_schema(schema) if schema
 
     if tools.any?
-      tools.each { |tool| chat = chat.with_tool(tool) }
+      tools.each { |tool| chat = chat.with_tools(tool) }
       chat.on_end_message { |message| record_generation(chat, message, model) }
     end
 

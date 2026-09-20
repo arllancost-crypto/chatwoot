@@ -440,7 +440,8 @@ module Agents
       # Configure chat with instructions, temperature, tools, and schema
       chat.with_instructions(system_prompt, replace: replace) if system_prompt
       chat.with_temperature(agent.temperature) if agent.temperature
-      chat.with_tools(*all_tools, replace: replace)
+      chat.with_tools(nil) if replace
+      chat.with_tools(*all_tools)
       chat.with_schema(agent.response_schema) if agent.response_schema
 
       chat

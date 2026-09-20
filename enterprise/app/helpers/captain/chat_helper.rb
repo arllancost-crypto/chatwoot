@@ -33,7 +33,7 @@ module Captain::ChatHelper
 
   def setup_tools(llm_chat)
     @tools&.each do |tool|
-      llm_chat = llm_chat.with_tool(tool)
+      llm_chat = llm_chat.with_tools(tool)
     end
     llm_chat
   end
