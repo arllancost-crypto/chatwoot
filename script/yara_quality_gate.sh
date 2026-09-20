@@ -13,30 +13,30 @@ if [[ -z "$changed_files" ]]; then
   exit 0
 fi
 
-echo "Files evaluated by YARA Policy Gate:"
-printf '%s\n' "$changed_files"
+echo "Evaluating changed files; source content is never printed."
 
 blocked_name_pattern='(^|/)(\.env($|\.)|credentials\.yml\.enc$|master\.key$|id_rsa$|id_ed25519$|.*\.pem$|.*\.p12$|.*\.pfx$)'
-if printf '%s\n' "$changed_files" | grep -E "$blocked_name_pattern"; then
+if grep -Eq "$blocked_name_pattern" <<< "$changed_files"; then
   echo "Blocked: a credential or environment file was added or modified."
   exit 1
 fi
 
-added_lines="$(git diff --unified=0 "$BASE_SHA" "$HEAD_SHA" -- . ':!spec/fixtures/**' ':!test/fixtures/**' ':!script/yara_quality_gate.sh' | grep '^+' | grep -v '^+++' || true)"
+diff_content="$(git -c core.quotePath=true diff --no-ext-diff --no-textconv --unified=0 "$BASE_SHA" "$HEAD_SHA" -- .)"
+added_lines="$(sed '/^+++ /d; /^+/!d' <<< "$diff_content")"
 
 secret_pattern='(BEGIN (RSA|OPENSSH|EC) PRIVATE KEY|AWS_SECRET_ACCESS_KEY[[:space:]]*=|SECRET_KEY_BASE[[:space:]]*=|DATABASE_URL[[:space:]]*=|REDIS_URL[[:space:]]*=|IXC_.*(TOKEN|PASSWORD|SECRET)[[:space:]]*=|EVOLUTION_.*(TOKEN|PASSWORD|SECRET)[[:space:]]*=)'
-if printf '%s\n' "$added_lines" | grep -Ei "$secret_pattern"; then
+if grep -Eiq "$secret_pattern" <<< "$added_lines"; then
   echo "Blocked: a possible secret or production connection value was introduced."
   exit 1
 fi
 
-direct_yara_access_pattern='(YARA_DATABASE_URL|YARA_REDIS_URL|IXC_DATABASE|ACS_DATABASE)'
-if printf '%s\n' "$added_lines" | grep -Ei "$direct_yara_access_pattern"; then
+direct_yara_access_pattern='(YARA_''DATABASE_URL|YARA_''REDIS_URL|IXC_''DATABASE|ACS_''DATABASE)'
+if grep -Eiq "$direct_yara_access_pattern" <<< "$added_lines"; then
   echo "Blocked: direct access to an internal YARA datastore or provider was introduced."
   exit 1
 fi
 
-if printf '%s\n' "$changed_files" | grep -Eq '^(db/migrate/|config/initializers/|config/routes\.rb$|\.github/|docker/|deployment/|script/yara_quality_gate\.sh$|yara-protected-paths\.txt$)'; then
+if grep -Eq '^(db/migrate/|config/initializers/|config/routes\.rb$|\.github/|docker/|deployment/|script/yara_quality_gate\.sh$|yara-protected-paths\.txt$)' <<< "$changed_files"; then
   echo "Critical paths changed. CODEOWNERS approval must be enforced by the repository Ruleset."
 fi
 

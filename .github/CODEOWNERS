@@ -18,5 +18,5 @@
 /script/yara_quality_gate.sh @arllancost-crypto
 /yara-protected-paths.txt @arllancost-crypto
 
-## All enterprise related files should be reviewed by sojan before merging
-/enterprise/* @sojan-official
+## Fork ownership also applies to enterprise paths.
+/enterprise/ @arllancost-crypto
