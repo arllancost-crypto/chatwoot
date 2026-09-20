@@ -1,10 +1,12 @@
 source 'https://rubygems.org'
 
-ruby '3.4.4'
+ruby '~> 3.4.4'
 
 ##-- base gems for rails --##
 gem 'rack-cors', '2.0.0', require: 'rack/cors'
-gem 'rails', '~> 7.1'
+gem 'rails', '~> 7.2.3', '>= 7.2.3.2'
+gem 'mail', '>= 2.9.1'
+gem 'ruby-vips', '>= 2.2.1'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -195,10 +197,10 @@ gem 'reverse_markdown'
 
 gem 'iso-639'
 gem 'ruby-openai'
-gem 'ai-agents', '>= 0.12.0'
+gem 'ai-agents', '0.12.0', path: 'vendor/gems/ai-agents-0.12.0'
 
 # TODO: Move this gem as a dependency of ai-agents
-gem 'ruby_llm', '>= 1.14.1'
+gem 'ruby_llm', '~> 2.0.0'
 gem 'ruby_llm-schema'
 
 gem 'cld3', '~> 3.7'
@@ -255,7 +257,7 @@ group :development, :test do
   gem 'active_record_query_trace'
   ##--- gems for debugging and error reporting ---##
   # static analysis
-  gem 'brakeman'
+  gem 'brakeman', '~> 8.0'
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri
   gem 'climate_control'

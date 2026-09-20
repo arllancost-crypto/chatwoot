@@ -57,6 +57,7 @@ ENV PATH="$PNPM_HOME:$PATH"
 WORKDIR /app
 
 COPY Gemfile Gemfile.lock ./
+COPY vendor/gems/ai-agents-0.12.0 ./vendor/gems/ai-agents-0.12.0
 
 # natively compile grpc and protobuf to support alpine musl (dialogflow-docker workflow)
 # https://github.com/googleapis/google-cloud-ruby/issues/13306
