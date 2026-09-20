@@ -1,0 +1,36 @@
+name: YARA Policy Gate
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - master
+
+permissions:
+  contents: read
+
+concurrency:
+  group: yara-policy-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  policy:
+    name: YARA Policy Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout pull request
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Validate YARA change policy
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: bash script/yara_quality_gate.sh
+
+      - name: Test policy regressions with synthetic data
+        run: python3 script/test_yara_quality_gate.py
