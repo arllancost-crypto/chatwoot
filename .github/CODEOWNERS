@@ -1,2 +1,22 @@
+## YARA fork governance
+* @arllancost-crypto
+
+# Security, identity and authorization
+/app/controllers/api/ @arllancost-crypto
+/app/controllers/super_admin/ @arllancost-crypto
+/app/models/concerns/access_tokenable.rb @arllancost-crypto
+/config/initializers/ @arllancost-crypto
+/config/routes.rb @arllancost-crypto
+
+# Data, infrastructure and YARA policy
+/db/migrate/ @arllancost-crypto
+/db/schema.rb @arllancost-crypto
+/.github/ @arllancost-crypto
+/docker/ @arllancost-crypto
+/deployment/ @arllancost-crypto
+/Procfile* @arllancost-crypto
+/script/yara_quality_gate.sh @arllancost-crypto
+/yara-protected-paths.txt @arllancost-crypto
+
 ## All enterprise related files should be reviewed by sojan before merging
 /enterprise/* @sojan-official
