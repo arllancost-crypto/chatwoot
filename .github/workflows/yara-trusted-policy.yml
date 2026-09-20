@@ -2,7 +2,7 @@ name: YARA Trusted Policy
 
 on:
   pull_request_target:
-    branches: [develop, master]
+    branches: [develop, master, yara/dev-4.16.2]
     types: [opened, synchronize, reopened]
 
 permissions:
