@@ -7,6 +7,13 @@ require Rails.root.join 'spec/models/concerns/avatarable_shared.rb'
 RSpec.describe Contact do
   context 'with validations' do
     it { is_expected.to validate_presence_of(:account_id) }
+
+    it 'rejects a phone number with text before its international prefix' do
+      contact = build(:contact, phone_number: 'invalid+5511999999999')
+      contact.valid?
+
+      expect(contact.errors[:phone_number]).to be_present
+    end
   end
 
   context 'with associations' do

@@ -69,7 +69,7 @@ class User < ApplicationRecord
 
   # TODO: remove in a future version once online status is moved to account users
   # remove the column availability from users
-  enum availability: { online: 0, offline: 1, busy: 2 }
+  enum :availability, { online: 0, offline: 1, busy: 2 }
 
   # The validation below has been commented out as it does not
   # work because :validatable in devise overrides this.
@@ -89,7 +89,7 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :account_users
 
   has_many :assigned_conversations, foreign_key: 'assignee_id', class_name: 'Conversation', dependent: :nullify, inverse_of: :assignee
-  alias_attribute :conversations, :assigned_conversations
+  alias conversations assigned_conversations
   has_many :csat_survey_responses, foreign_key: 'assigned_agent_id', dependent: :nullify, inverse_of: :assigned_agent
   has_many :reviewed_csat_survey_responses, foreign_key: 'review_notes_updated_by_id', class_name: 'CsatSurveyResponse',
                                             dependent: :nullify, inverse_of: :review_notes_updated_by
@@ -168,6 +168,12 @@ class User < ApplicationRecord
   # Since this method is overriden in devise_token_auth it breaks the email reconfirmation flow.
   def will_save_change_to_email?
     mutations_from_database.changed?('email')
+  end
+
+  # devise_token_auth 1.3 overrides Devise's prefixed dirty-tracking hook.
+  # Preserve mandatory reconfirmation when an existing user changes email.
+  def devise_will_save_change_to_email?
+    will_save_change_to_email?
   end
 
   def self.from_email(email)

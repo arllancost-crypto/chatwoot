@@ -22,8 +22,8 @@ class Api::V1::Accounts::SlaPoliciesController < Api::V1::Accounts::EnterpriseAc
   end
 
   def permitted_params
-    params.require(:sla_policy).permit(:name, :description, :first_response_time_threshold, :next_response_time_threshold,
-                                       :resolution_time_threshold, :only_during_business_hours)
+    params.expect(sla_policy: [:name, :description, :first_response_time_threshold, :next_response_time_threshold,
+                               :resolution_time_threshold, :only_during_business_hours])
   end
 
   def fetch_sla

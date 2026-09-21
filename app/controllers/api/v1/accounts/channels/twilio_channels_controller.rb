@@ -65,8 +65,8 @@ class Api::V1::Accounts::Channels::TwilioChannelsController < Api::V1::Accounts:
   end
 
   def permitted_params
-    params.require(:twilio_channel).permit(
-      :messaging_service_sid, :phone_number, :account_sid, :auth_token, :name, :medium, :api_key_sid
+    params.expect(
+      twilio_channel: [:messaging_service_sid, :phone_number, :account_sid, :auth_token, :name, :medium, :api_key_sid]
     )
   end
 end

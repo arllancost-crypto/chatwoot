@@ -40,10 +40,10 @@ class Api::V1::Accounts::CustomFiltersController < Api::V1::Accounts::BaseContro
   end
 
   def permitted_payload
-    params.require(:custom_filter).permit(
-      :name,
-      :filter_type,
-      query: {}
+    params.expect(
+      custom_filter: [:name,
+                      :filter_type,
+                      { query: {} }]
     )
   end
 

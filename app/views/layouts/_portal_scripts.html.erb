@@ -98,5 +98,19 @@ html.light {
   window.chatwootSettings = window.chatwootSettings || {};
   window.chatwootSettings.locale = '<%= @locale %>';
 </script>
-<%= @portal.channel_web_widget.web_widget_script.html_safe %>
+<script>
+  (function(d,t) {
+    var baseUrl = <%= raw json_escape(ENV.fetch('FRONTEND_URL', '').to_json) %>;
+    var script = d.createElement(t), first = d.getElementsByTagName(t)[0];
+    script.src = baseUrl + '/packs/js/sdk.js';
+    script.async = true;
+    first.parentNode.insertBefore(script, first);
+    script.onload = function() {
+      window.chatwootSDK.run({
+        websiteToken: <%= raw json_escape(@portal.channel_web_widget.website_token.to_json) %>,
+        baseUrl: baseUrl
+      });
+    };
+  })(document, 'script');
+</script>
 <% end %>

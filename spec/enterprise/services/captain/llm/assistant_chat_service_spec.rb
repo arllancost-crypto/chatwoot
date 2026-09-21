@@ -22,9 +22,9 @@ RSpec.describe Captain::Llm::AssistantChatService do
     allow(mock_chat).to receive(:with_tool).and_return(mock_chat)
     allow(mock_chat).to receive(:with_instructions).and_return(mock_chat)
     allow(mock_chat).to receive(:add_message).and_return(mock_chat)
-    allow(mock_chat).to receive(:on_end_message).and_return(mock_chat)
-    allow(mock_chat).to receive(:on_tool_call).and_return(mock_chat)
-    allow(mock_chat).to receive(:on_tool_result).and_return(mock_chat)
+    allow(mock_chat).to receive(:after_message).and_return(mock_chat)
+    allow(mock_chat).to receive(:before_tool_call).and_return(mock_chat)
+    allow(mock_chat).to receive(:after_tool_result).and_return(mock_chat)
     allow(mock_chat).to receive(:messages).and_return([])
   end
 

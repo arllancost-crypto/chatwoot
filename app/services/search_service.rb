@@ -184,9 +184,14 @@ class SearchService
   def apply_time_filter(query, column_name)
     return query if params[:since].blank? && params[:until].blank?
 
-    query = query.where("#{column_name} >= ?", cap_since_time(params[:since])) if params[:since].present?
-    query = query.where("#{column_name} <= ?", cap_until_time(params[:until])) if params[:until].present?
+    column = time_filter_column(query, column_name)
+    query = query.where(column.gteq(cap_since_time(params[:since]))) if params[:since].present?
+    query = query.where(column.lteq(cap_until_time(params[:until]))) if params[:until].present?
     query
+  end
+
+  def time_filter_column(query, column_name)
+    query.klass.arel_table[column_name.split('.').last]
   end
 
   def cap_since_time(since_param)

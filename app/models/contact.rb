@@ -53,7 +53,7 @@ class Contact < ApplicationRecord
   validates :identifier, allow_blank: true, uniqueness: { scope: [:account_id] }
   validates :phone_number,
             allow_blank: true, uniqueness: { scope: [:account_id] },
-            format: { with: /\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
+            format: { with: /\A\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
 
   belongs_to :account
   has_many :conversations, dependent: :destroy_async
@@ -68,7 +68,7 @@ class Contact < ApplicationRecord
   after_destroy_commit :dispatch_destroy_event
   before_save :sync_contact_attributes
 
-  enum contact_type: { visitor: 0, lead: 1, customer: 2 }
+  enum :contact_type, { visitor: 0, lead: 1, customer: 2 }
 
   scope :order_on_last_activity_at, lambda { |direction|
     order(

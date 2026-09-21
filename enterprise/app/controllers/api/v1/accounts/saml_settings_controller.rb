@@ -36,12 +36,12 @@ class Api::V1::Accounts::SamlSettingsController < Api::V1::Accounts::BaseControl
   end
 
   def saml_settings_params
-    params.require(:saml_settings).permit(
-      :sso_url,
-      :certificate,
-      :idp_entity_id,
-      :sp_entity_id,
-      role_mappings: {}
+    params.expect(
+      saml_settings: [:sso_url,
+                      :certificate,
+                      :idp_entity_id,
+                      :sp_entity_id,
+                      { role_mappings: {} }]
     )
   end
 

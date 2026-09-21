@@ -46,11 +46,11 @@ class Api::V1::Accounts::Captain::PreferencesController < Api::V1::Accounts::Bas
   end
 
   def permitted_captain_models
-    params.require(:captain_models).permit(*captain_feature_keys).to_h.stringify_keys
+    params.expect(captain_models: [*captain_feature_keys]).to_h.stringify_keys
   end
 
   def permitted_captain_features
-    params.require(:captain_features).permit(*captain_feature_keys).to_h.stringify_keys
+    params.expect(captain_features: [*captain_feature_keys]).to_h.stringify_keys
   end
 
   def captain_feature_keys

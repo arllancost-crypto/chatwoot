@@ -6,6 +6,21 @@ describe V2::ReportBuilder do
   let_it_be(:label_1) { create(:label, title: 'Label_1', account: account) }
   let_it_be(:label_2) { create(:label, title: 'Label_2', account: account) }
 
+  describe 'metric dispatch' do
+    it 'rejects method names outside the report allowlist' do
+      builder = described_class.new(account, { metric: '__send__' })
+
+      expect(builder.timeseries).to eq({})
+    end
+
+    it 'dispatches an allowed metric to its fixed method' do
+      builder = described_class.new(account, { metric: 'conversations_count' })
+      allow(builder).to receive(:conversations_count).and_return({ 'sample' => 3 })
+
+      expect(builder.timeseries).to eq({ 'sample' => 3 })
+    end
+  end
+
   describe '#timeseries' do
     # Use before_all to share expensive setup across all tests in this describe block
     # This runs once instead of 21 times, dramatically speeding up the suite

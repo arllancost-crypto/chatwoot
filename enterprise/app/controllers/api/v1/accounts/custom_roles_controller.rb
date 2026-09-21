@@ -22,7 +22,7 @@ class Api::V1::Accounts::CustomRolesController < Api::V1::Accounts::EnterpriseAc
   end
 
   def permitted_params
-    params.require(:custom_role).permit(:name, :description, permissions: [])
+    params.expect(custom_role: [:name, :description, { permissions: [] }])
   end
 
   def fetch_custom_role

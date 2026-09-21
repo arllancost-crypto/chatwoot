@@ -54,17 +54,17 @@ class Api::V1::Accounts::Captain::CustomToolsController < Api::V1::Accounts::Bas
   end
 
   def custom_tool_params
-    params.require(:custom_tool).permit(
-      :title,
-      :description,
-      :endpoint_url,
-      :http_method,
-      :request_template,
-      :response_template,
-      :auth_type,
-      :enabled,
-      auth_config: {},
-      param_schema: [:name, :type, :description, :required]
+    params.expect(
+      custom_tool: [:title,
+                    :description,
+                    :endpoint_url,
+                    :http_method,
+                    :request_template,
+                    :response_template,
+                    :auth_type,
+                    :enabled,
+                    { auth_config: {},
+                      param_schema: [[:name, :type, :description, :required]] }]
     )
   end
 end

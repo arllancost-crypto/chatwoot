@@ -52,9 +52,10 @@ class Api::V1::Accounts::CategoriesController < Api::V1::Accounts::BaseControlle
   end
 
   def category_params
-    params.require(:category).permit(
-      :name, :description, :position, :slug, :locale, :icon, :icon_color, :parent_category_id, :associated_category_id
-    )
+    params.require(:category)
+    params.permit(
+      category: [:name, :description, :position, :slug, :locale, :icon, :icon_color, :parent_category_id, :associated_category_id]
+    ).fetch(:category, ActionController::Parameters.new.permit)
   end
 
   def set_current_page

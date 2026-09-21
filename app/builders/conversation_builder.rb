@@ -18,8 +18,8 @@ class ConversationBuilder
   end
 
   def conversation_params
-    additional_attributes = params[:additional_attributes]&.permit! || {}
-    custom_attributes = params[:custom_attributes]&.permit! || {}
+    additional_attributes = permitted_metadata(:additional_attributes)
+    custom_attributes = permitted_metadata(:custom_attributes)
     status = params[:status].present? ? { status: params[:status] } : {}
 
     # TODO: temporary fallback for the old bot status in conversation, we will remove after couple of releases
@@ -36,5 +36,9 @@ class ConversationBuilder
       assignee_id: params[:assignee_id],
       team_id: params[:team_id]
     }.merge(status)
+  end
+
+  def permitted_metadata(key)
+    ActionController::Parameters.new(key => params[key]).permit(key => {})[key] || {}
   end
 end

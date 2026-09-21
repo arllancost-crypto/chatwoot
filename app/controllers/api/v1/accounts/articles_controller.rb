@@ -82,11 +82,11 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   end
 
   def article_params
-    params.require(:article).permit(
-      :title, :slug, :position, :content, :description, :category_id, :author_id, :associated_article_id, :status,
-      :locale, :draft_title, :draft_content, meta: [:title,
-                                                    :description,
-                                                    { tags: [] }]
+    params.expect(
+      article: [:title, :slug, :position, :content, :description, :category_id, :author_id, :associated_article_id, :status,
+                :locale, :draft_title, :draft_content, { meta: [:title,
+                                                                :description,
+                                                                { tags: [] }] }]
     )
   end
 

@@ -6,6 +6,17 @@ class V2::ReportBuilder
 
   DEFAULT_GROUP_BY = 'day'.freeze
   AGENT_RESULTS_PER_PAGE = 25
+  METRIC_METHODS = {
+    'conversations_count' => :conversations_count,
+    'incoming_messages_count' => :incoming_messages_count,
+    'outgoing_messages_count' => :outgoing_messages_count,
+    'avg_first_response_time' => :avg_first_response_time,
+    'avg_resolution_time' => :avg_resolution_time,
+    'reply_time' => :reply_time,
+    'resolutions_count' => :resolutions_count,
+    'bot_resolutions_count' => :bot_resolutions_count,
+    'bot_handoffs_count' => :bot_handoffs_count
+  }.freeze
 
   def initialize(account, params)
     @account = account
@@ -16,7 +27,7 @@ class V2::ReportBuilder
   end
 
   def timeseries
-    return send(params[:metric]) if metric_valid?
+    return method(METRIC_METHODS.fetch(params[:metric])).call if metric_valid?
 
     Rails.logger.error "ReportBuilder: Invalid metric - #{params[:metric]}"
     {}
@@ -73,15 +84,7 @@ class V2::ReportBuilder
   private
 
   def metric_valid?
-    %w[conversations_count
-       incoming_messages_count
-       outgoing_messages_count
-       avg_first_response_time
-       avg_resolution_time reply_time
-       resolutions_count
-       bot_resolutions_count
-       bot_handoffs_count
-       reply_time].include?(params[:metric])
+    METRIC_METHODS.key?(params[:metric])
   end
 
   def inbox

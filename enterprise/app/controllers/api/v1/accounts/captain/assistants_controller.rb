@@ -96,13 +96,13 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def summary_stats
-    params.require(:stats).permit(
-      conversations_handled: %i[current],
-      hours_saved: %i[current],
-      auto_resolution_rate: %i[current trend],
-      handoff_rate: %i[current trend],
-      reopen_rate: %i[current trend],
-      knowledge: %i[coverage approved documents]
+    params.expect(
+      stats: [conversations_handled: %i[current],
+              hours_saved: %i[current],
+              auto_resolution_rate: %i[current trend],
+              handoff_rate: %i[current trend],
+              reopen_rate: %i[current trend],
+              knowledge: %i[coverage approved documents]]
     ).to_h.deep_symbolize_keys
   end
 
@@ -119,13 +119,13 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def assistant_params
-    permitted = params.require(:assistant).permit(:name, :description,
-                                                  config: [
-                                                    :product_name, :feature_faq, :feature_memory, :feature_citation,
-                                                    :feature_contact_attributes,
-                                                    :welcome_message, :handoff_message, :resolution_message,
-                                                    :instructions, :temperature
-                                                  ])
+    permitted = params.expect(assistant: [:name, :description,
+                                          { config: [
+                                            :product_name, :feature_faq, :feature_memory, :feature_citation,
+                                            :feature_contact_attributes,
+                                            :welcome_message, :handoff_message, :resolution_message,
+                                            :instructions, :temperature
+                                          ] }])
 
     # Handle array parameters separately to allow partial updates
     permitted[:response_guidelines] = params[:assistant][:response_guidelines] if params[:assistant].key?(:response_guidelines)
@@ -136,7 +136,7 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def playground_params
-    params.require(:assistant).permit(:message_content, message_history: [:role, :content, :agent_name])
+    params.expect(assistant: [:message_content, { message_history: [[:role, :content, :agent_name]] }])
   end
 
   def message_history

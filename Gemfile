@@ -1,10 +1,17 @@
 source 'https://rubygems.org'
 
-ruby '3.4.4'
+ruby '~> 3.4.4'
 
 ##-- base gems for rails --##
 gem 'rack-cors', '2.0.0', require: 'rack/cors'
-gem 'rails', '~> 7.1'
+gem 'rails', '~> 8.1.3', '>= 8.1.3.1'
+gem 'mail', '>= 2.9.1'
+gem 'ruby-vips', '>= 2.2.1', require: false
+# Explicit asset dependencies: no longer supplied transitively by Administrate.
+gem 'sprockets-rails'
+gem 'sassc-rails'
+gem 'jquery-rails'
+gem 'selectize-rails', '~> 0.12'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -83,9 +90,9 @@ gem 'barnes'
 
 ##--- gems for authentication & authorization ---##
 gem 'devise', '>= 4.9.4'
-gem 'devise-secure_password', git: 'https://github.com/chatwoot/devise-secure_password', branch: 'chatwoot'
+gem 'devise-secure_password', '2.0.1', path: 'vendor/gems/devise-secure_password-2.0.1'
 gem 'devise_token_auth', '>= 1.2.3'
-gem 'rails-i18n', '~> 7.0'
+gem 'rails-i18n', '~> 8.0'
 # two-factor authentication
 gem 'devise-two-factor', '>= 5.0.0'
 # authorization
@@ -93,9 +100,9 @@ gem 'jwt', '~> 2.10', '>= 2.10.3'
 gem 'pundit'
 
 # super admin
-gem 'administrate', '>= 0.20.1'
+gem 'administrate', '~> 1.0'
 gem 'administrate-field-active_storage', '>= 1.0.3'
-gem 'administrate-field-belongs_to_search', '>= 0.9.0'
+gem 'administrate-field-belongs_to_search', '0.10.0', path: 'vendor/gems/administrate-field-belongs_to_search-0.10.0'
 
 ##--- gems for pubsub service ---##
 # https://karolgalanciak.com/blog/2019/11/30/from-activerecord-callbacks-to-publish-slash-subscribe-pattern-and-event-driven-design/
@@ -195,10 +202,10 @@ gem 'reverse_markdown'
 
 gem 'iso-639'
 gem 'ruby-openai'
-gem 'ai-agents', '>= 0.12.0'
+gem 'ai-agents', '0.12.0', path: 'vendor/gems/ai-agents-0.12.0'
 
 # TODO: Move this gem as a dependency of ai-agents
-gem 'ruby_llm', '>= 1.14.1'
+gem 'ruby_llm', '~> 2.0.0'
 gem 'ruby_llm-schema'
 
 gem 'cld3', '~> 3.7'
@@ -255,7 +262,7 @@ group :development, :test do
   gem 'active_record_query_trace'
   ##--- gems for debugging and error reporting ---##
   # static analysis
-  gem 'brakeman'
+  gem 'brakeman', '~> 8.0'
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri
   gem 'climate_control'
