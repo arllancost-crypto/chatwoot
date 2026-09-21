@@ -66,7 +66,7 @@ module Agents
         start_agent_span(tracing, agent_name)
       end
 
-      # No-op: LLM spans are handled by on_end_message hook (see on_chat_created).
+      # No-op: LLM spans are handled by after_message hook (see on_chat_created).
       # Kept because the callback interface requires it.
       def on_llm_call_complete(_agent_name, _model, _response, _context_wrapper); end
 
@@ -83,7 +83,7 @@ module Agents
 
         request_attributes = { model: model, temperature: temperature }
 
-        chat.on_end_message do |message|
+        chat.after_message do |message|
           handle_end_message(chat, agent_name, request_attributes, message, context_wrapper)
         end
       end

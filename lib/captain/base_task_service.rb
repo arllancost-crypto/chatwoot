@@ -90,7 +90,7 @@ class Captain::BaseTaskService
 
     if tools.any?
       tools.each { |tool| chat = chat.with_tools(tool) }
-      chat.on_end_message { |message| record_generation(chat, message, model) }
+      chat.after_message { |message| record_generation(chat, message, model) }
     end
 
     chat
