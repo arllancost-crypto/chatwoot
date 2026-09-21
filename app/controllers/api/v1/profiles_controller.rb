@@ -62,14 +62,15 @@ class Api::V1::ProfilesController < Api::BaseController
   end
 
   def profile_params
-    params.expect(
+    params.require(:profile)
+    params.permit(
       profile: [:email,
                 :name,
                 :display_name,
                 :avatar,
                 :message_signature,
                 { ui_settings: {} }]
-    )
+    ).fetch(:profile, ActionController::Parameters.new.permit)
   end
 
   def custom_attributes_params

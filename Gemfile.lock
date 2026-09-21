@@ -1203,6 +1203,7 @@ DEPENDENCIES
   scss_lint
   searchkick
   seed_dump
+  selectize-rails (~> 0.12)
   sentry-rails (>= 5.19.0)
   sentry-ruby
   sentry-sidekiq (>= 5.19.0)

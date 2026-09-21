@@ -11,6 +11,7 @@ gem 'ruby-vips', '>= 2.2.1', require: false
 gem 'sprockets-rails'
 gem 'sassc-rails'
 gem 'jquery-rails'
+gem 'selectize-rails', '~> 0.12'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
