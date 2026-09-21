@@ -170,6 +170,12 @@ class User < ApplicationRecord
     mutations_from_database.changed?('email')
   end
 
+  # devise_token_auth 1.3 overrides Devise's prefixed dirty-tracking hook.
+  # Preserve mandatory reconfirmation when an existing user changes email.
+  def devise_will_save_change_to_email?
+    will_save_change_to_email?
+  end
+
   def self.from_email(email)
     find_by(email: email&.downcase)
   end
