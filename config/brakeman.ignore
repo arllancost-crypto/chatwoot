@@ -1,0 +1,133 @@
+{
+  "ignored_warnings": [
+    {
+      "fingerprint": "08c4d5f8b16f49d05dda6660c154c237c866f652bccc845655483d901ecf1109",
+      "warning_type": "Mass Assignment",
+      "file": "app/controllers/api/v1/integrations/webhooks_controller.rb",
+      "line": 13,
+      "message": "Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys",
+      "note": "Slack event envelope, not model mass assignment. Passed to IncomingMessageBuilder event dispatch and SlackUnfurlJob. This suppression only addresses mass assignment, not webhook authenticity. See SECURITY_REVIEW.md."
+    },
+    {
+      "fingerprint": "1c53a094c0f421d273ca8ec211db548275d5fc36d320adbeaef54d162f39ab8d",
+      "warning_type": "SQL Injection",
+      "file": "enterprise/app/builders/captain/assistant_stats_builder.rb",
+      "line": 44,
+      "message": "Possible SQL injection",
+      "note": "Reviewed SQL construction: enum integers, connection.quote-escaped date/constants, and ActiveRecord-generated scoped subqueries only. No request SQL fragment. See SECURITY_REVIEW.md and assistant_stats_builder_spec.rb. Re-review on code changes."
+    },
+    {
+      "fingerprint": "31cd89f0af2f54aed328de79d7658691d3434075d9192880f0c7d5ac06f58b83",
+      "warning_type": "Mass Assignment",
+      "file": "app/controllers/api/v1/accounts/contacts_controller.rb",
+      "line": 47,
+      "message": "Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys",
+      "note": "Query/export payload only, not model mass assignment. Passed to account-scoped filter service validating attribute/operator whitelists and bound values, or export job with explicit account/user IDs. See SECURITY_REVIEW.md and filter service/controller specs."
+    },
+    {
+      "fingerprint": "56cb812afedebed977625f95d4692eb12c4a51a8bacdb88ae3406861f0065246",
+      "warning_type": "Mass Assignment",
+      "file": "app/controllers/api/v1/accounts/conversations_controller.rb",
+      "line": 51,
+      "message": "Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys",
+      "note": "Query/export payload only, not model mass assignment. Passed to account-scoped filter service validating attribute/operator whitelists and bound values, or export job with explicit account/user IDs. See SECURITY_REVIEW.md and filter service/controller specs."
+    },
+    {
+      "fingerprint": "5e6f44ff38b79aaf3be9fe1ea2cad16c7785518ee06a3d8105b134084417546b",
+      "warning_type": "SQL Injection",
+      "file": "enterprise/app/builders/captain/assistant_stats_builder.rb",
+      "line": 111,
+      "message": "Possible SQL injection",
+      "note": "Reviewed SQL construction: enum integers, connection.quote-escaped date/constants, and ActiveRecord-generated scoped subqueries only. No request SQL fragment. See SECURITY_REVIEW.md and assistant_stats_builder_spec.rb. Re-review on code changes."
+    },
+    {
+      "fingerprint": "7bb945a0c3cfcb2c88e1efd82404a67a6aa3d0a93a01ce52e7ba16460bb2cb23",
+      "warning_type": "SQL Injection",
+      "file": "enterprise/app/builders/captain/assistant_stats_builder.rb",
+      "line": 130,
+      "message": "Possible SQL injection",
+      "note": "Reviewed SQL construction: enum integers, connection.quote-escaped date/constants, and ActiveRecord-generated scoped subqueries only. No request SQL fragment. See SECURITY_REVIEW.md and assistant_stats_builder_spec.rb. Re-review on code changes."
+    },
+    {
+      "fingerprint": "9533c85d63ff269f26328de004e0e7d092599a6ec5e422043dc44498c948a917",
+      "warning_type": "SQL Injection",
+      "file": "enterprise/app/builders/captain/assistant_stats_builder.rb",
+      "line": 129,
+      "message": "Possible SQL injection",
+      "note": "Reviewed SQL construction: enum integers, connection.quote-escaped date/constants, and ActiveRecord-generated scoped subqueries only. No request SQL fragment. See SECURITY_REVIEW.md and assistant_stats_builder_spec.rb. Re-review on code changes."
+    },
+    {
+      "fingerprint": "acfa41a32a701199dc3ffab7c2ae142ec6ea63f464b452dc92869cf9e295baa8",
+      "warning_type": "SQL Injection",
+      "file": "enterprise/app/builders/captain/assistant_stats_builder.rb",
+      "line": 106,
+      "message": "Possible SQL injection",
+      "note": "Reviewed SQL construction: enum integers, connection.quote-escaped date/constants, and ActiveRecord-generated scoped subqueries only. No request SQL fragment. See SECURITY_REVIEW.md and assistant_stats_builder_spec.rb. Re-review on code changes."
+    },
+    {
+      "fingerprint": "af9f10d9c6a631a889b03842f5297db70cdf0b462c1eb6cc39ecb37ffa2fce1c",
+      "warning_type": "SQL Injection",
+      "file": "enterprise/app/builders/captain/assistant_stats_builder.rb",
+      "line": 108,
+      "message": "Possible SQL injection",
+      "note": "Reviewed SQL construction: enum integers, connection.quote-escaped date/constants, and ActiveRecord-generated scoped subqueries only. No request SQL fragment. See SECURITY_REVIEW.md and assistant_stats_builder_spec.rb. Re-review on code changes."
+    },
+    {
+      "fingerprint": "b180373ce01a6c79e0d35c5f473c931cf211402584e78422daa9d0fc59591592",
+      "warning_type": "SQL Injection",
+      "file": "enterprise/app/builders/captain/assistant_stats_builder.rb",
+      "line": 107,
+      "message": "Possible SQL injection",
+      "note": "Reviewed SQL construction: enum integers, connection.quote-escaped date/constants, and ActiveRecord-generated scoped subqueries only. No request SQL fragment. See SECURITY_REVIEW.md and assistant_stats_builder_spec.rb. Re-review on code changes."
+    },
+    {
+      "fingerprint": "bb9434d2eae95f5f221dd053770a06b3a6cd0ed69fa0e53ea4e02773c7f62331",
+      "warning_type": "SQL Injection",
+      "file": "app/services/filter_service.rb",
+      "line": 185,
+      "message": "Possible SQL injection",
+      "note": "Reviewed query builder: attribute/operator whitelist from filter_keys.yml and account custom definitions; query_operator restricted to AND/OR before building; values bound in where. Regression injection tests in contacts/filter_service_spec.rb. See SECURITY_REVIEW.md."
+    },
+    {
+      "fingerprint": "c2c1af85ea8750360d02d054d2c7b78a886d7c16391cb75897467ec51985b8ce",
+      "warning_type": "Mass Assignment",
+      "file": "app/controllers/api/v1/accounts/contacts_controller.rb",
+      "line": 63,
+      "message": "Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys",
+      "note": "Query/export payload only, not model mass assignment. Passed to account-scoped filter service validating attribute/operator whitelists and bound values, or export job with explicit account/user IDs. See SECURITY_REVIEW.md and filter service/controller specs."
+    },
+    {
+      "fingerprint": "d14750216455179f8beb354a88c7d67d6c433369c43b6a5abbdb4ff8ed885a79",
+      "warning_type": "SQL Injection",
+      "file": "enterprise/app/builders/captain/assistant_stats_builder.rb",
+      "line": 109,
+      "message": "Possible SQL injection",
+      "note": "Reviewed SQL construction: enum integers, connection.quote-escaped date/constants, and ActiveRecord-generated scoped subqueries only. No request SQL fragment. See SECURITY_REVIEW.md and assistant_stats_builder_spec.rb. Re-review on code changes."
+    },
+    {
+      "fingerprint": "d9de1107420edd671f6b4d10c7c1b1b1404f57e9ea4919d45de6f1f2ba29c799",
+      "warning_type": "Mass Assignment",
+      "file": "app/controllers/platform/api/v1/account_users_controller.rb",
+      "line": 27,
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "note": "Intentional privileged role management. PlatformApp token required and account checked by validate_platform_app_permissible before every action. User membership scoped to that account. See SECURITY_REVIEW.md and platform account_users request specs."
+    },
+    {
+      "fingerprint": "e2d18452b0fef1e46bfef4e1a15b80522d189a8cb7343adcf1695778aaf1f781",
+      "warning_type": "SQL Injection",
+      "file": "enterprise/app/builders/captain/assistant_stats_builder.rb",
+      "line": 45,
+      "message": "Possible SQL injection",
+      "note": "Reviewed SQL construction: enum integers, connection.quote-escaped date/constants, and ActiveRecord-generated scoped subqueries only. No request SQL fragment. See SECURITY_REVIEW.md and assistant_stats_builder_spec.rb. Re-review on code changes."
+    },
+    {
+      "fingerprint": "f78561cec014681e25d6f14e6d055977af964224b3eedc72f4153ea602f58fdf",
+      "warning_type": "SQL Injection",
+      "file": "enterprise/app/builders/captain/assistant_stats_builder.rb",
+      "line": 110,
+      "message": "Possible SQL injection",
+      "note": "Reviewed SQL construction: enum integers, connection.quote-escaped date/constants, and ActiveRecord-generated scoped subqueries only. No request SQL fragment. See SECURITY_REVIEW.md and assistant_stats_builder_spec.rb. Re-review on code changes."
+    }
+  ],
+  "updated": "2026-09-20"
+}

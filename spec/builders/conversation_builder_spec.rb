@@ -11,6 +11,20 @@ describe ConversationBuilder do
   let(:contact_api_inbox) { create(:contact_inbox, contact: contact, inbox: api_inbox) }
 
   describe '#perform' do
+    it 'keeps nested metadata from overriding ownership' do
+      params = ActionController::Parameters.new(
+        account_id: -1,
+        additional_attributes: { account_id: -1, nested: { value: 'kept' } },
+        custom_attributes: { contact_id: -1 }
+      )
+      conversation = described_class.new(contact_inbox: contact_api_inbox, params: params).perform
+
+      expect(conversation.account_id).to eq(account.id)
+      expect(conversation.contact_id).to eq(contact.id)
+      expect(conversation.additional_attributes.dig('nested', 'value')).to eq('kept')
+      expect(conversation.custom_attributes['contact_id']).to eq(-1)
+    end
+
     it 'creates sms conversation' do
       conversation = described_class.new(
         contact_inbox: contact_sms_inbox,

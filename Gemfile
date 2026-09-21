@@ -7,6 +7,10 @@ gem 'rack-cors', '2.0.0', require: 'rack/cors'
 gem 'rails', '~> 8.1.3', '>= 8.1.3.1'
 gem 'mail', '>= 2.9.1'
 gem 'ruby-vips', '>= 2.2.1', require: false
+# Explicit asset dependencies: no longer supplied transitively by Administrate.
+gem 'sprockets-rails'
+gem 'sassc-rails'
+gem 'jquery-rails'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
