@@ -75,6 +75,6 @@ class Api::V1::Accounts::Captain::FaqSuggestionsController < Api::V1::Accounts::
   end
 
   def suggestion_params
-    params.require(:faq_suggestion).permit(:question, :answer)
+    params.expect(faq_suggestion: [:question, :answer])
   end
 end

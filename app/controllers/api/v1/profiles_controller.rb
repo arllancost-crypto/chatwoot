@@ -21,15 +21,15 @@ class Api::V1::ProfilesController < Api::BaseController
   end
 
   def auto_offline
-    @user.account_users.find_by!(account_id: auto_offline_params[:account_id]).update!(auto_offline: auto_offline_params[:auto_offline] || false)
+    profile_account_user.update!(auto_offline: auto_offline_params[:auto_offline] || false)
   end
 
   def availability
-    @user.account_users.find_by!(account_id: availability_params[:account_id]).update!(availability: availability_params[:availability])
+    profile_account_user.update!(availability: availability_params[:availability])
   end
 
   def set_active_account
-    @user.account_users.find_by(account_id: profile_params[:account_id]).update(active_at: Time.now.utc)
+    profile_account_user.update(active_at: Time.now.utc)
     head :ok
   end
 
@@ -50,34 +50,39 @@ class Api::V1::ProfilesController < Api::BaseController
   end
 
   def availability_params
-    params.require(:profile).permit(:account_id, :availability)
+    params.expect(profile: [:availability])
   end
 
   def auto_offline_params
-    params.require(:profile).permit(:account_id, :auto_offline)
+    params.expect(profile: [:auto_offline])
+  end
+
+  def profile_account_user
+    @user.account_users.find_by!(account_id: params.require(:profile)[:account_id])
   end
 
   def profile_params
-    params.require(:profile).permit(
-      :email,
-      :name,
-      :display_name,
-      :avatar,
-      :message_signature,
-      :account_id,
-      ui_settings: {}
+    params.expect(
+      profile: [:email,
+                :name,
+                :display_name,
+                :avatar,
+                :message_signature,
+                { ui_settings: {} }]
     )
   end
 
   def custom_attributes_params
-    params.require(:profile).permit(:phone_number)
+    params.require(:profile)
+    params.permit(profile: [:phone_number]).fetch(:profile, ActionController::Parameters.new.permit)
   end
 
   def password_params
-    params.require(:profile).permit(
-      :current_password,
-      :password,
-      :password_confirmation
-    )
+    params.require(:profile)
+    params.permit(
+      profile: [:current_password,
+                :password,
+                :password_confirmation]
+    ).fetch(:profile, ActionController::Parameters.new.permit)
   end
 end

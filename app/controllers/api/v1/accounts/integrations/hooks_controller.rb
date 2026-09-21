@@ -36,6 +36,6 @@ class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::Inte
   end
 
   def permitted_params
-    params.require(:hook).permit(:app_id, :inbox_id, :status, settings: {})
+    params.expect(hook: [:app_id, :inbox_id, :status, { settings: {} }])
   end
 end

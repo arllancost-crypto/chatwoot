@@ -60,9 +60,9 @@ class SuperAdmin::InstallationConfigsController < SuperAdmin::ApplicationControl
   # end
 
   def resource_params
-    params.require(:installation_config)
-          .permit(:name, :value)
-          .transform_values { |value| value == '' ? nil : value }.merge(locked: false)
+    params
+      .expect(installation_config: [:name, :value])
+      .transform_values { |value| value == '' ? nil : value }.merge(locked: false)
   end
 
   private

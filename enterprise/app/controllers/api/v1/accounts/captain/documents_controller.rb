@@ -80,7 +80,7 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
   end
 
   def permitted_params
-    params.permit(:assistant_id, :page, :id, :account_id, :filter, :source, :sort, :search_key)
+    params.permit(:assistant_id, :page, :id, :filter, :source, :sort, :search_key)
   end
 
   def apply_source_filter(scope, source)
@@ -135,6 +135,6 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
   end
 
   def document_params
-    params.require(:document).permit(:name, :external_link, :assistant_id, :pdf_file)
+    params.expect(document: [:name, :external_link, :assistant_id, :pdf_file])
   end
 end

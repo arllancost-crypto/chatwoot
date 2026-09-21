@@ -84,13 +84,13 @@ class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::EnterpriseAcco
   end
 
   def company_params
-    params.require(:company).permit(
-      :name,
-      :domain,
-      :description,
-      :avatar,
-      additional_attributes: {},
-      custom_attributes: {}
+    params.expect(
+      company: [:name,
+                :domain,
+                :description,
+                :avatar,
+                { additional_attributes: {},
+                  custom_attributes: {} }]
     )
   end
 

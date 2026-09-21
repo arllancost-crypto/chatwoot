@@ -64,11 +64,11 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def agent_params
-    params.require(:agent).permit(allowed_agent_params)
+    params.expect(agent: [allowed_agent_params])
   end
 
   def new_agent_params
-    params.require(:agent).permit(:email, :name, :role, :availability, :auto_offline)
+    params.expect(agent: [:email, :name, :role, :availability, :auto_offline])
   end
 
   def agents

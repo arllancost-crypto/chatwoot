@@ -52,8 +52,8 @@ class Api::V1::Accounts::CategoriesController < Api::V1::Accounts::BaseControlle
   end
 
   def category_params
-    params.require(:category).permit(
-      :name, :description, :position, :slug, :locale, :icon, :icon_color, :parent_category_id, :associated_category_id
+    params.expect(
+      category: [:name, :description, :position, :slug, :locale, :icon, :icon_color, :parent_category_id, :associated_category_id]
     )
   end
 

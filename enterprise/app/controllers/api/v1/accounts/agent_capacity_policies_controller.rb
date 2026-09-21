@@ -24,10 +24,10 @@ class Api::V1::Accounts::AgentCapacityPoliciesController < Api::V1::Accounts::En
   private
 
   def permitted_params
-    params.require(:agent_capacity_policy).permit(
-      :name,
-      :description,
-      exclusion_rules: [:exclude_older_than_hours, { excluded_labels: [] }]
+    params.expect(
+      agent_capacity_policy: [:name,
+                              :description,
+                              { exclusion_rules: [:exclude_older_than_hours, { excluded_labels: [] }] }]
     )
   end
 

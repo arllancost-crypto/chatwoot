@@ -34,15 +34,15 @@ class Api::V1::Accounts::CustomAttributeDefinitionsController < Api::V1::Account
   end
 
   def permitted_payload
-    params.require(:custom_attribute_definition).permit(
-      :attribute_display_name,
-      :attribute_description,
-      :attribute_display_type,
-      :attribute_key,
-      :attribute_model,
-      :regex_pattern,
-      :regex_cue,
-      attribute_values: []
+    params.expect(
+      custom_attribute_definition: [:attribute_display_name,
+                                    :attribute_description,
+                                    :attribute_display_type,
+                                    :attribute_key,
+                                    :attribute_model,
+                                    :regex_pattern,
+                                    :regex_cue,
+                                    { attribute_values: [] }]
     )
   end
 

@@ -33,9 +33,9 @@ class Api::V1::Accounts::DashboardAppsController < Api::V1::Accounts::BaseContro
   end
 
   def permitted_payload
-    params.require(:dashboard_app).permit(
-      :title,
-      content: [:url, :type]
+    params.expect(
+      dashboard_app: [:title,
+                      { content: [[:url, :type]] }]
     )
   end
 

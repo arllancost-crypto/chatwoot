@@ -28,10 +28,10 @@ class Api::V1::Accounts::AssignmentPoliciesController < Api::V1::Accounts::BaseC
   end
 
   def assignment_policy_params
-    params.require(:assignment_policy).permit(
-      :name, :description, :assignment_order, :conversation_priority,
-      :fair_distribution_limit, :fair_distribution_window, :enabled,
-      :exclude_older_than_hours
+    params.expect(
+      assignment_policy: [:name, :description, :assignment_order, :conversation_priority,
+                          :fair_distribution_limit, :fair_distribution_window, :enabled,
+                          :exclude_older_than_hours]
     )
   end
 end

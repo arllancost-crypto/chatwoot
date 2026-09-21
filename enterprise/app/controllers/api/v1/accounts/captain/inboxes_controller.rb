@@ -29,10 +29,10 @@ class Api::V1::Accounts::Captain::InboxesController < Api::V1::Accounts::BaseCon
   end
 
   def permitted_params
-    params.permit(:assistant_id, :id, :account_id, :inbox_id)
+    params.permit(:assistant_id, :id, :inbox_id)
   end
 
   def assistant_params
-    params.require(:inbox).permit(:inbox_id)
+    params.expect(inbox: [:inbox_id])
   end
 end
