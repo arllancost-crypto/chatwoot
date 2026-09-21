@@ -4,7 +4,7 @@ ruby '~> 3.4.4'
 
 ##-- base gems for rails --##
 gem 'rack-cors', '2.0.0', require: 'rack/cors'
-gem 'rails', '~> 7.2.3', '>= 7.2.3.2'
+gem 'rails', '~> 8.1.3', '>= 8.1.3.1'
 gem 'mail', '>= 2.9.1'
 gem 'ruby-vips', '>= 2.2.1', require: false
 # Reduces boot times through caching; required in config/boot.rb
@@ -85,9 +85,9 @@ gem 'barnes'
 
 ##--- gems for authentication & authorization ---##
 gem 'devise', '>= 4.9.4'
-gem 'devise-secure_password', git: 'https://github.com/chatwoot/devise-secure_password', branch: 'chatwoot'
+gem 'devise-secure_password', '2.0.1', path: 'vendor/gems/devise-secure_password-2.0.1'
 gem 'devise_token_auth', '>= 1.2.3'
-gem 'rails-i18n', '~> 7.0'
+gem 'rails-i18n', '~> 8.0'
 # two-factor authentication
 gem 'devise-two-factor', '>= 5.0.0'
 # authorization
@@ -95,9 +95,9 @@ gem 'jwt', '~> 2.10', '>= 2.10.3'
 gem 'pundit'
 
 # super admin
-gem 'administrate', '>= 0.20.1'
+gem 'administrate', '~> 1.0'
 gem 'administrate-field-active_storage', '>= 1.0.3'
-gem 'administrate-field-belongs_to_search', '>= 0.9.0'
+gem 'administrate-field-belongs_to_search', '0.10.0', path: 'vendor/gems/administrate-field-belongs_to_search-0.10.0'
 
 ##--- gems for pubsub service ---##
 # https://karolgalanciak.com/blog/2019/11/30/from-activerecord-callbacks-to-publish-slash-subscribe-pattern-and-event-driven-design/
